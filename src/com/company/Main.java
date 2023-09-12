@@ -97,11 +97,19 @@ public class Main {
         else {
             System.out.println("je hebt niemand");
         }
+
+        // eigen + partner
         hypo.totaalInkomen(hypo.getBrutoInkomsten(), hypo.getBrutoPartnerInkomsten());
-        System.out.println(hypo.getTotaalInkomsten());
-        double termijnBerekening = (double)(hypo.getTotaalInkomsten() * 12);
-        System.out.println(termijnBerekening);
+        System.out.println(hypo.getTotaalInkomsten() + " dit is het totaal inkomen.");
+
+        // termijn kiezen
+        System.out.println("kies je termijn: 1 - 5 - 10 - 20 - 30 jaar.");
+        double b = chat.nextDouble();
+        double termijnBerekening = (double)(hypo.getTotaalInkomsten() * b * 12);
+        System.out.println("€ "+termijnBerekening + " dit is de termijn berekening.");
         hypo.setTotaalInkomsten(termijnBerekening);
-        System.out.println(hypo.getTotaalInkomsten() + "de nieuwe waarde checken - test");
+        System.out.println(hypo.getTotaalInkomsten() + " de nieuwe waarde checken - test");
+
+        // in de vraag erboven heb je de termijn al aangegen die kun je dus al paken <---- !!!
     }
 }
