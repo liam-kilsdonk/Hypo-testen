@@ -21,15 +21,12 @@ public class Main {
 
             switch (start){
                 case 1:
-                    System.out.println("test-1");
                     deVragen(chat, hypo);
                     deBerekenaar(chat, hypo);
                     break;
                 case 2:
-                    System.out.println("test-2");
                     break;
                 case 3:
-                    System.out.println("test-3");
                     break;
                 case 4:
                     running = false;
@@ -42,34 +39,18 @@ public class Main {
         // partner
         System.out.println("Heb je een Partner?: ja/nee");
         String a = chat.next();
-        System.out.println("User input for partner: " + a);
         hypo.partner(a);
-        if(hypo.getPartner()) {
-            System.out.println("je hebt een partner");
-        }
-        else {
-            System.out.println("je hebt geen parttner");
-        }
+
         // Studie schuld
         System.out.println("Heb je studie schuld openstaan?: ja/nee");
         String b = chat.next();
         hypo.schuld(b);
-        if(hypo.getSchuld()) {
-            System.out.println("je hebt een openstaande schuld.");
-        }
-        else {
-            System.out.println("je hebt Geen openstaande schulden lopen.");
-        }
+
         // Postcode
         System.out.println("Binnen welke postcode woon je?: *1234AB*");
         Integer c = chat.nextInt();
         hypo.postcode(c);
-        if(hypo.getPostcode()) {
-            System.out.println("je kan geen hypotheek aanvragen voor dit postcode.");
-        }
-        else {
-            System.out.println("je hebt een correcte postcode ingevoerd.");
-        }
+
         // termijn
         System.out.println("Voor welke termijn tijd wil je lenen: 1 - 5 - 10 - 20 - 30 Jaar");
         String d = chat.next();
@@ -95,21 +76,54 @@ public class Main {
             hypo.setBrutoPartnerInkomsten(b);
         }
         else {
-            System.out.println("je hebt niemand");
+            System.out.println("je hebt geen partner.");
         }
 
         // eigen + partner
         hypo.totaalInkomen(hypo.getBrutoInkomsten(), hypo.getBrutoPartnerInkomsten());
-        System.out.println(hypo.getTotaalInkomsten() + " dit is het totaal inkomen.");
+        System.out.println("€ "+hypo.getTotaalInkomsten() + " dit is het totaal inkomen.");
 
         // termijn kiezen
-        System.out.println("kies je termijn: 1 - 5 - 10 - 20 - 30 jaar.");
-        double b = chat.nextDouble();
-        double termijnBerekening = (double)(hypo.getTotaalInkomsten() * b * 12);
+        double termijnBerekening = (double)(hypo.getTotaalInkomsten() * hypo.getTermijn() * 12);
         System.out.println("€ "+termijnBerekening + " dit is de termijn berekening.");
         hypo.setTotaalInkomsten(termijnBerekening);
-        System.out.println(hypo.getTotaalInkomsten() + " de nieuwe waarde checken - test");
 
-        // in de vraag erboven heb je de termijn al aangegen die kun je dus al paken <---- !!!
+        // maximaal te lenen bedrag
+
+        double maxlenen = (hypo.getTotaalInkomsten() * 4.25);
+
+        // hoeveel wil je lenen
+
+        System.out.println("Je mag maximaal "+maxlenen+" lenen, kies je leen bedrag: ");
+        double wilLenen = chat.nextDouble();
+
+        while (wilLenen >= maxlenen ) {
+            System.out.println("Je mag maximaal "+maxlenen+" lenen, kies je leen bedrag onder het maximum: ");
+            wilLenen = chat.nextDouble();
+        }
+
+        // studie schuld
+        if(hypo.getSchuld()){
+           double metschuld = (wilLenen * 0.75);
+           hypo.setTotaalInkomsten(metschuld);
+           System.out.println("dit is het maxleenbedrag met schuld: € "+hypo.getTotaalInkomsten());
+        }
+        else {
+            System.out.println("je hebt geen schuld");
+        }
+
+        // rente die erbij komt
+        double metrente = (wilLenen + (wilLenen * hypo.getRente()));
+        System.out.println("Het bedrag inclusief rente: € "+ metrente);
+
+        // laat zien hoeveel rente er elke maand betaalt word
+
+        double rentezien = wilLenen * hypo.getRente();
+        System.out.println("Rente bedrag dat betaalt word elke maand: € "+ rentezien);
+
+        // laat zien hoeveel er elke maand word afgelost
+
+        double afgelost = (metrente / hypo.getTermijn() / 12);
+        System.out.println("Het termijn bedrag dat elke maand word afgelost inclusief rente: € "+ afgelost);
     }
 }

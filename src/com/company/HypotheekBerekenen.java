@@ -18,11 +18,7 @@ public class HypotheekBerekenen {
         this.partner = partner;
     }
 
-    public boolean getPartner() {
-
-        System.out.println("Getting partner value: " + partner);
-        return partner;
-    }
+    public boolean getPartner() { return partner; }
 
     public void setSchuld(boolean schuld) {
         this.schuld = schuld;
@@ -126,23 +122,23 @@ public class HypotheekBerekenen {
     public double termijnBerekeningMetRente( String termijnInput ) {
 
         if(termijnInput.equals("1")){
-            this.rente = 2.0;
+            this.rente = 0.02;
             this.termijn = 1;
         }
         else if (termijnInput.equals("5")) {
-            this.rente = 3.0;
+            this.rente = 0.03;
             this.termijn = 5;
         }
         else if (termijnInput.equals("10")) {
-            this.rente = 3.5;
+            this.rente = 0.035;
             this.termijn = 10;
         }
         else if (termijnInput.equals("20")) {
-            this.rente = 4.5;
+            this.rente = 0.045;
             this.termijn = 20;
         }
         else if (termijnInput.equals("30")) {
-            this.rente = 5.0;
+            this.rente = 0.05;
             this.termijn = 30;
         }
         else {
